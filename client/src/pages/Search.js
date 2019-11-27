@@ -85,10 +85,112 @@ class Search extends Component {
             const savedBookIds = [...this.state.savedBookIds, bookId]
             this.setState({ savedBookIds });
         })
-        .catch(err => this.setState({error: err}));
+            .catch(err => this.setState({ error: err }));
     };
 
+    //Now to render the elements
+    //1. First thing we are going to do is return a fragment, an opening and closing tag with nothing in it. It’s the same thing as if you were saying React.fragment. And we use this to wrap our JSX in something. So using a fragment is way to avoid messing up how your page is displayed.
+    //2. Next we are going to make a Jumbotron. We want it to be fluid, we want the background (bg) to be dark and our color to be light, since that's out text. And our pageTitle is Search for books. So when we look at the Jumbotron component, the props from the Jumbotron.js are being passed in here, so look at lines 31-35 and those properties are being rendered here. And the pageTitle here is being defined on line 40, the <h1> tag in our component file.
+    //3. Now we are going to make a regular Container and make a Row inside of it and it's going to be a regular Row. So inside the Row is going to be the entire page.
+    //4. So inside the Row, we are going to create a Column and we are going to have two props in here. So now let's open up the Column.js component as a reference. So here we make the column size, xs={12} and the margin, md={4}
+    //5. So inside the Column is going to be one of the cards, this one is going to be the form. So Card and the title of the card, since that's the tag header in Card.js. So we look at Card.js line 42. And that is the only prop we are going to take in for this card.
+    //6. Inside the Card, we are going to make a <form> for our input field. So we are creating an an onSubmit for our handleFormSubmit.
+    //7.Then we are going to make an <input> field inside the <form>. So we need type for text, form-control is the Bootstrap class for the input field so it looks nice. Placeholder, so that's 'Search for a book'. OnChange so we can keep track of the key presses, so we are going to use our function, handleInputChange. Value is searchTerm. And the Name of the input field has to be the samething as it is in state, so searchTerm. Now the input field is complete.
+    //8. One other thing we are adding to the form, the error. So if this.state.error is true or exists and if there is no length to the search term, if it's an empty string. So basically, we are saying if one is true and the other is false, then render this alert. So we are creating a <div> and a className for the Bootstrap alerts. And a margin of 2. So now if we went to our page, that's the search field card.
+    //9. Wait, of course, there is one more thing for the card...the button! So <button> is in a form, so we don't have to give it a click event. So className is btn btn-block, since we want it to go to the edge of the container.
 
+    //10. Now we are going to make another Column and make it xs={12} and md={8}
+    //11. And inside the Column, we are going to do the conditional rendering, so if there are no books in the bookList, if it's an empty array, we want an <h2> tag and center the text. And we are going to say, 'Search for books to begin' else and else is the colon : AND THIS IS ACTUALLY WHERE WE WILL LOOP THROUGH THE BOOKLIST TO CREATE CARDS. 
+    //12. So this.state.bookList.map and for each book in the bookList, we need to render JSX. And we put our JSX inside the return.
+    //13. And the first thing we will put in our JSX is a Column because we want every book to be stacked nicely against each other. So we have to put the key={book.bookId} and md-4, a margin of 4. And so since we didn't pass in another size here, our size is going to be base 12 (refer back to Column.js line 6) And we are going to close the Column.
+    //14. Now inside the Column, we are going to use the Card. Again, just incase I forgot, when we hover over the tag, it gives us the props. So inside the Card tag, we have the props, so title, image, so like we did before, if book.image exist, give me book.image, which is the link, else undefined. 
+    //15. Now we are inside the Card, these are the children of the card. So we are going to use a <small> tag, since we need tiny text. And this again is all from BootStrap. And we are going to put a className of 'text-muted' And inside the <small> tag, we are going to render the authors.
+    //16. So we are going to make a Template Literal. So basically, if the book.authors.length is an array, make it a string, at the comma , join(', ') is what it looks like. Else, we don't want to render anything because there is no author. So we put null.
+    //17. Now we are going to make a <p> tag, obviously, still inside the Card, but outside of the <small> tag. This is going to be our description. So inside our <p> tag, we are going to put <p>{book.description}</p>
+    //18. Last thing is the button, the button to save the book. So first thing is we are going to handle the way to disable the button. So this.state.savedBookIds, so the value we have saved in our state, line 14. So we are going to disable the button, if savedBookIds includes book.bookId. So if it is already in the array, in state, then we are going to disable the button. Else, the button will be undefined, so that means the button will be able to be clicked. So if you want disabled to equal disabled, then this has to be true. Then we have to give the button a className, so we'll make it a small button. Then we make the click event, so onClick and we need to pass an arrow function and pass the bookId, so we use the handleBookSaveBook and we are passing in the book.bookId. And this is all coming from the .map
+
+    render() {
+        return (
+            < >
+                <Jumbotron
+                    fluid
+                    bg={'dark'}
+                    color={'light'}
+                    pageTitle={'Search For Books'}
+
+                />
+                <Container>
+                    <Row>
+                        <Column xs={12} md={4}>
+                            <Card title={'Search For a Book'}>
+                                <form onSubmit={this.handleFormSubmit}>
+                                    <input
+                                        type='text'
+                                        className='form-control'
+                                        placeholder='Search for a Book'
+                                        onChange={this.handleInputChange}
+                                        value={this.state.searchTerm}
+                                        name='searchTerm'
+
+                                    />
+                                    {this.state.error && !this.state.searchTerm.length && (
+                                        <div className='alert alert-danger mb-2'>
+                                            {this.state.error}
+                                        </div>
+                                    )}
+                                    <button type='submit' className='btn btn-block btn-dark mt-2'>
+                                        Search For Books
+                                    </button>
+                                </form>
+
+                            </Card>
+
+                        </Column>
+                        <Column xs={12} md={8}>
+                            {!this.state.bookList.length ? (
+                                <h2 className='text-center'>
+                                    Search for books to begin
+                                </h2>
+
+                            ) : (
+                                    this.state.bookList.map(book => {
+                                        return (
+                                            <Column key={book.bookId} md={4}>
+                                                <Card
+                                                    title={book.title}
+                                                    image={book.image ? book.image : undefined}
+                                                >
+                                                    <small className='text-muted'>
+                                                        {'By: ${book.authors.lenght ? book.author.join(', ') : null }'}
+
+                                                    </small>
+                                                    <p>{book.description}</p>
+                                                    <button
+                                                        disabled={
+                                                            this.state.savedBookIds.includes(book.bookId) ? true : undefined
+                                                        }
+                                                        className={'btn btn-success btn-sm'}
+                                                        onClick={() => this.handleBookSaveBook(book.bookId)}>
+                                                        Save Book
+
+                                                    </button>
+
+                                                </Card>
+                                            </Column>
+                                        )
+                                    })
+
+                                )}
+
+                        </Column>
+                    </Row>
+                </Container>
+
+            </>
+
+        )
+
+    }
 
 }
 
