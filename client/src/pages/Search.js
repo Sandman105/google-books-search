@@ -134,7 +134,7 @@ class Search extends Component {
 
                                     />
                                     {this.state.error && !this.state.searchTerm.length && (
-                                        <div className='alert alert-danger mb-2'>
+                                        <div className="alert alert-danger my-2">
                                             {this.state.error}
                                         </div>
                                     )}
@@ -161,7 +161,7 @@ class Search extends Component {
                                                     image={book.image ? book.image : undefined}
                                                 >
                                                     <small className='text-muted'>
-                                                        {'By: ${book.authors.lenght ? book.author.join(', ') : null }'}
+                                                        {`By: ${book.authors.lenght ? book.author.join(', ') : null }`}
 
                                                     </small>
                                                     <p>{book.description}</p>

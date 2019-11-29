@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const saveBook = bookData => {
+export const savedBook = bookData => {
     return axios.post('/api/books', bookData)
 
 };
@@ -11,7 +11,7 @@ export const getSavedBooks = () => {
 };
 
 export const removeBook = bookId => {
-    return axios.delete('api/books/${bookId}')
+    return axios.delete(`api/books/${bookId}`)
 
 };
 
@@ -25,7 +25,7 @@ export const searchGoogleBooks = query => {
 
 //So here we can import all of these as one object or import them independently 
 export default {
-    saveBook,
+    savedBook,
     getSavedBooks,
     removeBook,
     searchGoogleBooks
