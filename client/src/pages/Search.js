@@ -65,11 +65,11 @@ class Search extends Component {
         //So from our API we have a function called getSavedBooks and .then we know is going to return a promise.
         getSavedBooks().then(res => {
             //We used bookId here since we only want to get one thing out of the object.
-            const savedBookIds = res.data.map(({ bookId }) => bookId)
+            const savedBookIds = res.data.map(({ bookId }) => bookId);
             //So here we are saving the book, boookId in savedBookIds
             this.setState({ savedBookIds });
         })
-            .catch(err => this.setState({ error: err }));
+            //.catch(err => this.setState({ error: err }));
     };
 
     handleBookSaveBook = bookId => {
@@ -85,7 +85,7 @@ class Search extends Component {
             const savedBookIds = [...this.state.savedBookIds, bookId]
             this.setState({ savedBookIds });
         })
-            .catch(err => this.setState({ error: err }));
+            //.catch(err => this.setState({ error: err }));
     };
 
     //Now to render the elements
@@ -158,10 +158,9 @@ class Search extends Component {
                                             <Column key={book.bookId} md={4}>
                                                 <Card
                                                     title={book.title}
-                                                    image={book.image ? book.image : undefined}
-                                                >
-                                                    <small className='text-muted'>
-                                                        {`By: ${book.authors.lenght ? book.author.join(', ') : null }`}
+                                                    image={book.image ? book.image : undefined}>
+                                                    <small className="text-muted">
+                                                        {`By: ${book.authors.length ? book.authors.join(', ') : null}`}
 
                                                     </small>
                                                     <p>{book.description}</p>

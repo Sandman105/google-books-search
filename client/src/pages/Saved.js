@@ -53,49 +53,49 @@ class Saved extends Component {
     //10. Then we add a <button> for our onClick. So this is exactly what we did before EXCEPT we are passing in the Mongo book Id., and doing a this.handleRemoveBook.
 
     render() {
-        return ( 
+        return (
             <>
-            <Jumbotron
-            fluid
-            bg={'dark'}
-            color={'light'}
-            pageTitle={'Viewing Saved Books'}
-            />
-            <Container>
+                <Jumbotron
+                    fluid
+                    bg={'dark'}
+                    color={'light'}
+                    pageTitle={'Viewing Saved Books'}
+                />
+                <Container>
 
-            <Row>
-            {!this.state.bookList.length ? (
-                <h2 className='text-center'>No saved books yet....</h2>
-            ) : (
-                this.state.bookList.map(book => {
-                    return (
-                        <Column key={book._id} md={4}>
-                        
-                        <Card
-                        bg={'dark'}
-                        title={book.title}
-                        image={book.image ? book.image : undefined}
-                        >
-                        <small className='text-muted'>
-                        {`By: ${book.authors.lenght ? book.author.join(', ') : null }`}
-                        </small>
-                        <p>{book.description}</p>
-                        <button onClick={() => this.handleRemoveBook(book._id)} className='btn btn-danger btn-sm'>
-                            Remove Book
-                        </button>
+                    <Row>
+                        {!this.state.bookList.length ? (
+                            <h2 className='text-center'>No saved books yet....</h2>
+                        ) : (
+                                this.state.bookList.map(book => {
+                                    return (
+                                        <Column key={book._id} md={4}>
 
-                        </Card>
+                                            <Card
+                                                bg={'dark'}
+                                                title={book.title}
+                                                image={book.image ? book.image : undefined}
+                                            >
+                                                <small className='text-muted'>
+                                                    {`By: ${book.authors.length ? book.authors.join(', ') : null}`}
+                                                </small>
+                                                <p>{book.description}</p>
+                                                <button onClick={() => this.handleRemoveBook(book._id)} className='btn btn-danger btn-sm'>
+                                                    Remove Book
+                                                </button>
 
-                        </Column>   
+                                            </Card>
 
-                    )
-                })
-            )}
-            </Row>
+                                        </Column>
+
+                                    )
+                                })
+                            )}
+                    </Row>
 
 
-            </Container>
-            
+                </Container>
+
 
             </>
         );
